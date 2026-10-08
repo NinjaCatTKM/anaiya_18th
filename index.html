@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>About the Author</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* 18th birthday theme: gold accent, outlined 18 behind the content, confetti burst. Layout: one full-screen scene. Photos fill the background and crossfade; name, bio and links sit bottom-left over a scrim; a thumbnail strip picks the photo. */
+:root{
+  --ink:#ffffff; --ink-soft:rgba(255,255,255,.78); --scrim:rgba(8,9,18,.55); --glass:rgba(14,15,26,.42); --line:rgba(255,255,255,.22); --accent:#ffd36e; --accent-fg:#0d0e15;
+  --display:'Bricolage Grotesque','Helvetica Neue',Arial,sans-serif;
+  --body:'Instrument Sans','Helvetica Neue',Arial,sans-serif;
+  --mono:'DM Mono',ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:#0d0e15;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;overflow:hidden;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+/* background photos */
+.stage{position:fixed;inset:0;background:#0d0e15}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.2s ease;transform:scale(1.04)}
+.bg.on{opacity:1;animation:drift 14s ease-out forwards}
+@keyframes drift{from{transform:scale(1.04)}to{transform:scale(1.12)}}
+.scrim{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,9,18,.88) 0%,rgba(8,9,18,.55) 42%,rgba(8,9,18,.12) 75%,rgba(8,9,18,.35) 100%)}
+
+/* page content */
+.page{position:relative;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding-inline:clamp(16px,5vw,64px);padding-block:18px 18px;max-width:1280px;margin-inline:auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.label{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft)}
+.counter{font-variant-numeric:tabular-nums}
+
+.main{display:flex;flex-direction:column;gap:18px;max-width:680px;min-width:0}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(3rem,12vw,7.5rem);line-height:.9;letter-spacing:-.04em;margin:0;text-wrap:balance;overflow-wrap:anywhere}
+h1 em{font-style:normal;color:var(--accent)}
+.book{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.bio{margin:0;font-size:clamp(1.05rem,2.6vw,1.3rem);line-height:1.75;letter-spacing:.01em;word-spacing:.06em;color:var(--ink-soft);max-width:56ch;max-height:34vh;overflow-y:auto;scrollbar-width:none}
+.bio::-webkit-scrollbar{display:none}
+.bio b{color:var(--ink);font-weight:600}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.btn,.chip{font:inherit;font-size:15px;text-decoration:none;border-radius:99px;padding:10px 18px;cursor:pointer;color:var(--ink);background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.btn{background:var(--ink);color:#0d0e15;border-color:var(--ink);font-weight:600}
+.btn:hover{filter:brightness(.92)}
+.chip:hover{border-color:var(--ink)}
+.sample{align-self:flex-start;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--accent);border:1px dashed var(--accent);border-radius:99px;padding:3px 10px}
+
+/* photo picker */
+.dock{display:flex;align-items:center;gap:12px;margin-top:16px}
+.thumbs{display:flex;gap:8px;overflow-x:auto;padding:4px;scrollbar-width:none;min-width:0;flex:1}
+.thumbs::-webkit-scrollbar{display:none}
+.thumb{flex:0 0 auto;width:54px;height:54px;border-radius:12px;border:2px solid transparent;padding:0;background-size:cover;background-position:center;cursor:pointer;opacity:.6;transition:.25s}
+.thumb:hover{opacity:1}
+.thumb[aria-current="true"]{opacity:1;border-color:var(--ink);transform:translateY(-3px)}
+.nav{display:flex;gap:8px}
+.nav button{width:44px;height:44px;border-radius:50%;font:inherit;font-size:18px;color:var(--ink);background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer}
+.nav button:hover{border-color:var(--ink)}
+.progress{position:absolute;left:0;bottom:0;height:3px;background:var(--ink);width:0;opacity:.8}
+.progress.run{animation:fill 6s linear forwards}
+@keyframes fill{to{width:100%}}
+
+
+
+/* 18th birthday theme */
+.eighteen{position:absolute;right:clamp(-12px,-1vw,0px);top:clamp(56px,10vh,110px);font-family:var(--display);font-weight:800;font-size:clamp(9rem,44vw,26rem);line-height:.8;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:2px var(--accent);opacity:.6;pointer-events:none;user-select:none}
+.bday{align-self:flex-start;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-fg);background:var(--accent);border-radius:99px;padding:5px 14px;font-weight:500}
+#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
+
+/* edit mode (open the page with ?edit at the end of the link) */
+.edit{display:none;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.editing .edit{display:flex}
+.edit .chip{display:inline-block}
+.edit input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.edit .note{font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--ink-soft);flex-basis:100%}
+.thumbwrap{position:relative;flex:0 0 auto}
+.thumbwrap .x{display:none;position:absolute;top:-4px;right:-4px;width:20px;height:20px;border-radius:50%;border:0;background:#fff;color:#0d0e15;font-size:12px;line-height:20px;padding:0;cursor:pointer}
+.editing .thumbwrap .x{display:block}
+
+@media (max-width:600px){
+  .page{padding-block:14px 14px}
+  .main{gap:10px}
+  .thumb{width:46px;height:46px}
+  .nav button{width:40px;height:40px}
+  .btn,.chip{padding:9px 15px;font-size:14px}
+}
+@media (max-height:520px){.bio{display:none}}
+@media (prefers-reduced-motion:reduce){.bg{transition:none}.bg.on{animation:none}.progress.run{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage"><div class="scrim"></div><div class="eighteen" aria-hidden="true">18</div></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<div class="page" id="page">
+  <div class="top">
+    <span class="label">About the author</span>
+    <span class="label counter" id="counter"></span>
+  </div>
+
+  <div class="edit" id="edit">
+    <label class="chip" for="file" tabindex="0" id="addlabel">Add photos</label>
+    <input type="file" id="file" accept="image/*" multiple>
+    <button class="chip" type="button" id="pack">Download photo pack</button>
+    <span class="note" id="note">Edit mode. Add your photos, check how they look, then download the pack and upload it to your GitHub images folder.</span>
+  </div>
+
+  <div>
+    <div class="main">
+      <span class="bday">Happy 18th Birthday!!!</span>
+      <span class="book">Author of It Happened Again</span>
+      <h1>Author <em>Name</em></h1>
+      <p class="bio"><b>The innovative, gorgeous, and the best-selling author of our generation has just turned 18!</b> Anaiya Patel has taken the world by storm with the release of her newest book 'It Happened Again', a riviting short story fueled by Anaiya's creativity and ambition. She's not just a pretty face, but a beautiul mind. Have an amazing day baby, you deserve it!</p>
+      <div class="actions">
+        <a class="chip" href="https://www.tiktok.com/@ana1ya.08" target="_blank" rel="noopener">TikTok</a>
+        <a class="chip" href="https://www.instagram.com/ana1ya.08/" target="_blank" rel="noopener">Instagram</a>
+        <a class="chip" href="https://uk.pinterest.com/ana1ya/" target="_blank" rel="noopener">Pinterest</a>
+        <button class="chip" type="button" id="copy">Copy email</button>
+        <button class="chip" type="button" id="party">Celebrate</button>
+      </div>
+      <span class="sample">You really are beautiful</span>
+    </div>
+
+    <div class="dock">
+      <div class="thumbs" id="thumbs" role="tablist" aria-label="Choose a photo"></div>
+      <div class="nav">
+        <button type="button" id="prev" aria-label="Previous photo">←</button>
+        <button type="button" id="next" aria-label="Next photo">→</button>
+      </div>
+    </div>
+  </div>
+  <div class="progress" id="progress"></div>
+</div>
+
+<script>
+/* PHOTOS: the page reads images/photos.json (a list of file names). Until you add one it shows the sample photos.
+   Easiest way to set yours: open the page with ?edit on the end of the link, add photos, download the pack. */
+var SAMPLES=[1,2,3,4,5,6].map(function(n){return 'images/sample-'+n+'.svg'});
+var DELAY=6000;
+var editing=/(^|[?&])edit(&|=|$)/.test(location.search);
+if(editing)document.body.classList.add('editing');
+
+var stage=document.getElementById('stage'),thumbs=document.getElementById('thumbs'),counter=document.getElementById('counter'),prog=document.getElementById('progress'),note=document.getElementById('note');
+var items=[],layers=[],tbs=[],cur=0,timer=null,edited=false;
+
+function build(list){
+  layers.forEach(function(l){l.remove()});thumbs.innerHTML='';layers=[];tbs=[];items=list;
+  items.forEach(function(p,i){
+    var d=document.createElement('div');d.className='bg';d.style.backgroundImage='url("'+p.src+'")';stage.insertBefore(d,stage.querySelector('.scrim'));layers.push(d);
+    var w=document.createElement('div');w.className='thumbwrap';
+    var t=document.createElement('button');t.className='thumb';t.type='button';t.style.backgroundImage='url("'+p.src+'")';t.setAttribute('aria-label','Photo '+(i+1));
+    t.onclick=function(){go(i)};w.appendChild(t);
+    var x=document.createElement('button');x.className='x';x.type='button';x.textContent='\u00d7';x.setAttribute('aria-label','Remove photo '+(i+1));
+    x.onclick=function(){items.splice(i,1);edited=true;build(items.length?items:[])};w.appendChild(x);
+    thumbs.appendChild(w);tbs.push(t);
+  });
+  go(Math.min(cur,Math.max(items.length-1,0)));
+}
+function go(i){
+  if(!items.length){counter.textContent='';return}
+  cur=(i+items.length)%items.length;
+  layers.forEach(function(l,k){l.classList.toggle('on',k===cur)});
+  tbs.forEach(function(t,k){if(k===cur){t.setAttribute('aria-current','true');t.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'})}else t.removeAttribute('aria-current')});
+  counter.textContent=String(cur+1).padStart(2,'0')+' / '+String(items.length).padStart(2,'0');
+  restart();
+}
+function restart(){
+  clearTimeout(timer);prog.classList.remove('run');void prog.offsetWidth;
+  if(items.length<2||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  prog.classList.add('run');timer=setTimeout(function(){go(cur+1)},DELAY);
+}
+document.getElementById('prev').onclick=function(){go(cur-1)};
+document.getElementById('next').onclick=function(){go(cur+1)};
+document.addEventListener('keydown',function(e){if(e.key==='ArrowLeft')go(cur-1);if(e.key==='ArrowRight')go(cur+1)});
+var sx=null,page=document.getElementById('page');
+page.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});
+page.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>60)go(cur+(dx<0?1:-1));sx=null});
+document.addEventListener('visibilitychange',function(){if(document.hidden){clearTimeout(timer);prog.classList.remove('run')}else restart()});
+
+/* load the photo list */
+build(SAMPLES.map(function(s){return {src:s}}));
+fetch('images/photos.json',{cache:'no-cache'}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(names){
+  if(Array.isArray(names)&&names.length&&!edited){cur=0;build(names.map(function(n){return {src:'images/'+n}}))}
+}).catch(function(){});
+
+/* edit mode: add, resize and package photos */
+function resize(file){
+  return (window.createImageBitmap?createImageBitmap(file):Promise.reject()).catch(function(){
+    return new Promise(function(res,rej){var im=new Image();im.onload=function(){res(im)};im.onerror=rej;im.src=URL.createObjectURL(file)});
+  }).then(function(img){
+    var w=img.width,h=img.height,m=Math.max(w,h),k=m>1800?1800/m:1,c=document.createElement('canvas');
+    c.width=Math.round(w*k);c.height=Math.round(h*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    return new Promise(function(res){c.toBlob(function(b){res(b)},'image/jpeg',0.82)});
+  });
+}
+document.getElementById('file').addEventListener('change',function(e){
+  var files=Array.prototype.slice.call(e.target.files);if(!files.length)return;
+  note.textContent='Preparing '+files.length+' photo'+(files.length>1?'s':'')+'...';
+  Promise.all(files.map(resize)).then(function(blobs){
+    var base=edited?items.slice():[];
+    blobs.forEach(function(b){base.push({src:URL.createObjectURL(b),blob:b})});
+    edited=true;cur=0;build(base);
+    note.textContent=items.length+' photos ready. Click "Download photo pack" when you like how they look.';
+  }).catch(function(){note.textContent='One of those files could not be read. Try JPG, PNG or WebP photos.'});
+  e.target.value='';
+});
+document.getElementById('addlabel').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();document.getElementById('file').click()}});
+document.getElementById('pack').onclick=function(){
+  var withBlobs=items.filter(function(p){return p.blob});
+  if(!withBlobs.length){note.textContent='Add some photos first.';return}
+  note.textContent='Building the pack...';
+  var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js';
+  s.onload=function(){
+    var z=new JSZip(),f=z.folder('images'),names=[];
+    withBlobs.forEach(function(p,i){var n='photo-'+(i+1)+'.jpg';names.push(n);f.file(n,p.blob)});
+    f.file('photos.json',JSON.stringify(names,null,2));
+    z.generateAsync({type:'blob'}).then(function(out){
+      var a=document.createElement('a');a.href=URL.createObjectURL(out);a.download='photo-pack.zip';document.body.appendChild(a);a.click();a.remove();
+      note.textContent='Downloaded photo-pack.zip. Unzip it, then upload the images folder contents to your GitHub repository.';
+    });
+  };
+  s.onerror=function(){note.textContent='Could not build the pack. Check your connection and try again.'};
+  document.head.appendChild(s);
+};
+
+/* confetti */
+var cv=document.getElementById('confetti'),cx=cv.getContext('2d'),parts=[],raf=null,CL=['#ffd36e','#ff7aa8','#6ee7f0','#ffffff','#b79bff'];
+function tick(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(function(p){p.t+=1;p.x+=p.vx+Math.sin(p.t/14+p.s)*.9;p.y+=p.vy;p.vy+=.035;p.rot+=p.vr;
+    cx.save();cx.translate(p.x,p.y);cx.rotate(p.rot);cx.fillStyle=p.c;cx.fillRect(-p.r,-p.r*.45,p.r*2,p.r*.9);cx.restore()});
+  parts=parts.filter(function(p){return p.y<cv.height+30});
+  raf=parts.length?requestAnimationFrame(tick):null;
+  if(!raf)cx.clearRect(0,0,cv.width,cv.height);
+}
+function burst(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  cv.width=innerWidth;cv.height=innerHeight;
+  for(var i=0;i<160;i++)parts.push({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.35,vx:(Math.random()-.5)*2.2,vy:1.5+Math.random()*3,r:4+Math.random()*5,rot:Math.random()*6,vr:(Math.random()-.5)*.3,c:CL[i%CL.length],t:0,s:Math.random()*6});
+  if(!raf)raf=requestAnimationFrame(tick);
+}
+document.getElementById('party').onclick=burst;
+setTimeout(burst,500);
+
+var copyBtn=document.getElementById('copy'),email='you@example.com';
+copyBtn.onclick=function(){
+  var done=function(){copyBtn.textContent='Copied';setTimeout(function(){copyBtn.textContent='Copy email'},1800)};
+  try{navigator.clipboard.writeText(email).then(done,function(){copyBtn.textContent=email})}catch(e){copyBtn.textContent=email}
+};
+</script>
+
+</body>
+</html>
